@@ -10,7 +10,8 @@ public enum ServletPath {
     TEMPLATE("/template"),
     LOGIN("/login"),
     REGISTER("/register"),
-    LOGOUT("/logout");
+    LOGOUT("/logout"),
+    MESSAGES("/messages/*");
 
     private final String path;
 
