@@ -25,14 +25,16 @@
                 </div>
                 <ul class="chat__users-list">
                     <#list chats as chat>
-                        <li class="chat__users-item ${(chatId = chat.id())?then("active", "")}"
-                            data-chatId="${chat.id()}">
+                        <li
+                                class="chat__users-item ${(chatId = chat.chatId())?then("active", "")}"
+                                data-chatId=${chat.chatId()}
+                        >
                             <div class="chat__users-item-container">
                                 <div class="chat__users-item-avatar">
                                     <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Avatar">
                                 </div>
                                 <div class="chat__users-item-content">
-                                    <p>${chat.from().email()}</p>
+                                    <p>${chat.to().email()}</p>
                                     <p>${chat.lastMessage()}</p>
                                 </div>
                             </div>
@@ -45,15 +47,15 @@
                 </ul>
             </div>
             <div class="chat__messages">
+                <div class="chat__messages-header">
+                    Chat header
+                </div>
                 <#if chatId?has_content>
-                    <div class="chat__messages-header">
-                        Chat header
-                    </div>
                     <ul class="chat__messages-list">
                         <#list messages as message>
-                            <li class="chat__messages-item ${(message.from().id() == 1)?then("left", "right")}">
+                            <li class="chat__messages-item ${(message.from().id() == 1)?then("right", "left")}">
                                 <div class="chat__messages-item__wrap">
-                                    <pre>${message.msg()}</pre>
+                                    <span>${message.msg()}</span>
                                 </div>
                             </li>
                         </#list>

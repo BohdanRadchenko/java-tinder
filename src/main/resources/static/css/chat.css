@@ -154,6 +154,10 @@
     padding: 4px 8px;
 }
 
+.chat__messages-item__wrap span {
+    white-space: pre-line;
+}
+
 .chat__messages-item.left .chat__messages-item__wrap {
     background-color: #fff;
     margin-left: 8px;

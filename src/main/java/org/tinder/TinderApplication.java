@@ -11,19 +11,20 @@ import org.tinder.utils.Constants;
 import org.tinder.utils.Database;
 import org.tinder.utils.ResourcesOps;
 
+import javax.xml.crypto.Data;
+
 public class TinderApplication implements Runnable {
-    private final Database database;
     private final HTTPServer server;
     private final Services services;
 
     public TinderApplication() {
-        database = new Database();
         server = new HTTPServer(Config.getPort());
         services = Services.create();
     }
 
     private void initDatabase() throws Exception {
         System.out.println("db connection...");
+        Database.connect();
 
         //TODO: remove next line.
         System.out.println("work with database");
