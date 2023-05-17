@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class StaticServlet extends HttpServlet {
-
     private final String osStaticLocation;
 
     public StaticServlet(String osStaticLocation) {
@@ -21,7 +20,6 @@ public class StaticServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pathInfo = req.getPathInfo();
 
-        if (pathInfo.startsWith("/")) pathInfo = pathInfo.substring(1);
         Path file = Path.of(osStaticLocation, pathInfo);
 
         if (!file.toFile().exists()) {
@@ -33,5 +31,4 @@ public class StaticServlet extends HttpServlet {
         }
 
     }
-
 }

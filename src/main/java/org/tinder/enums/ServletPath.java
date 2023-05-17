@@ -1,10 +1,10 @@
 package org.tinder.enums;
 
 public enum ServletPath {
+    WILDCARD("/*"),
     STATIC("/static"),
     STATIC_WILDCARD("/static/*"),
     HOME("/"),
-
     // TODO: for example and test. remove next code
     REDIRECT("/redirect"),
     // TODO: for example and test. remove next code
