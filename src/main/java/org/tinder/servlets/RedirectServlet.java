@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 public class RedirectServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         try (PrintWriter w = resp.getWriter()) {
             w.write("Redirect page servlet");
         }
