@@ -14,8 +14,8 @@
 
         <title>${title}</title>
         <link rel="icon" href="static/img/favicon.ico">
-                <link href="static/css/bootstrap.min.css" rel="stylesheet">
-                <link rel="stylesheet" href="static/css/style.css">
+        <link href="static/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="static/css/style.css">
         <#nested>
     </head>
 </#macro>
