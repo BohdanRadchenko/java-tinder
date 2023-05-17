@@ -135,13 +135,40 @@
 }
 
 .chat__messages-item.left .chat__messages-item__wrap {
-    background-color: #CFD8DC;
+    background-color: #fff;
+    margin-left: 8px;
+}
+
+.chat__messages-item.left .chat__messages-item__wrap::after {
+    content: "";
+    width: 0;
+    height: 0;
+    top: 0;
+    left: -8px;
+    position: absolute;
+    border-top: 8px solid #fff;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
 }
 
 .chat__messages-item.right .chat__messages-item__wrap {
-    background-color: #fff;
+    background-color: #CFD8DC;
+    margin-right: 8px;
 }
 
+.chat__messages-item.right .chat__messages-item__wrap::after {
+    content: "";
+    width: 0;
+    height: 0;
+    top: 0;
+    right: -8px;
+    position: absolute;
+    border-top: 8px solid #CFD8DC;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+}
+
+/* textarea */
 .chat__messages-text__container {
     background-color: rgb(251,251,251);
     padding: 2px 10px;
@@ -157,31 +184,23 @@
     background-color: transparent;
 }
 
-/*.chat {*/
+
+/*.chats {*/
+
+/*    overflow-x: scroll;*/
+/*    overflow-x: hidden;*/
+/*    background: #ECEFF1;*/
+/*    position: relative;*/
+/*    top: 35px;*/
+/*}*/
+
+/*.chats ul li {*/
+/*    display: inline-block;*/
 /*    list-style: none;*/
-/*    margin: 0;*/
-/*    padding: 0;*/
+/*    clear: both;*/
+/*    font-size: 13px;*/
 /*}*/
 
-/*.chat li {*/
-/*    margin-bottom: 10px;*/
-/*    padding-bottom: 5px;*/
-/*    border-bottom: 1px dotted #B3A9A9;*/
-/*}*/
-
-/*.chat li.left .chat-body {*/
-/*    margin-left: 60px;*/
-/*}*/
-
-/*.chat li.right .chat-body {*/
-/*    margin-right: 60px;*/
-/*}*/
-
-
-/*.chat li .chat-body p {*/
-/*    margin: 0;*/
-/*    color: #777777;*/
-/*}*/
 
 /*.send-msg {*/
 /*    position: relative;*/
@@ -222,7 +241,7 @@
 /*    content: "";*/
 /*    width: 0;*/
 /*    height: 0;*/
-/*    top: 0px;*/
+/*    top: 0;*/
 /*    left: -8px;*/
 /*    position: absolute;*/
 /*    border-top: 8px solid #fff;*/
@@ -254,4 +273,3 @@
 /*.msg-box input:focus {*/
 /*    outline: none;*/
 /*}*/
-

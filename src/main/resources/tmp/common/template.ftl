@@ -30,13 +30,14 @@
 
 <#macro body_auth>
     <body>
-        <aside class="d-none d-sm-flex">
-            <nav>
-<#--                <button>1</button>-->
-<#--                <button>1</button>-->
-<#--                <button>1</button>-->
-<#--                <button>1</button>-->
-<#--                <button>1</button>-->
+        <aside class="sidebar d-none d-sm-flex">
+            <nav class="d-flex flex-column">
+                <a href="/">home</a>
+                <a href="/users">users</a>
+                <a href="/likes">likes</a>
+                <a href="/login">login</a>
+                <a href="/register">register</a>
+                <a href="/messages">chat</a>
             </nav>
         </aside>
         <div class="container auth">
