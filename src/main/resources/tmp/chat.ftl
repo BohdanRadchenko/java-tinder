@@ -20,9 +20,13 @@
     <@t.body_auth>
         <div class="chat">
             <div class="chat__users">
+                <div class="chat__users-header">
+                    Chat header
+                </div>
                 <ul class="chat__users-list">
                     <#list chats as chat>
-                        <li class="chat__users-item ${(chatId = chat.id())?then("active", "")}" data-chatId="${chat.id()}">
+                        <li class="chat__users-item ${(chatId = chat.id())?then("active", "")}"
+                            data-chatId="${chat.id()}">
                             <div class="chat__users-item-container">
                                 <div class="chat__users-item-avatar">
                                     <img src="https://www.w3schools.com/w3images/avatar2.png" alt="Avatar">
@@ -42,6 +46,9 @@
             </div>
             <div class="chat__messages">
                 <#if chatId?has_content>
+                    <div class="chat__messages-header">
+                        Chat header
+                    </div>
                     <ul class="chat__messages-list">
                         <#list messages as message>
                             <li class="chat__messages-item ${(message.from().id() == 1)?then("left", "right")}">
@@ -60,9 +67,9 @@
                         </textarea>
                     </div>
                 <#else>
-                   <div class="chat__empty">
-                       <p>Select a user for start messaging</p>
-                   </div>
+                    <div class="chat__empty">
+                        <p>Select a user for start messaging</p>
+                    </div>
                 </#if>
             </div>
         </div>

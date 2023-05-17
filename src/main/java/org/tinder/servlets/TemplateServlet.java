@@ -1,7 +1,6 @@
 package org.tinder.servlets;
 
 import freemarker.template.TemplateException;
-import org.tinder.enums.ServletPath;
 import org.tinder.utils.FMTemplate;
 
 import javax.servlet.ServletException;
