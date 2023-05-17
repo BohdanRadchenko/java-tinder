@@ -4,11 +4,12 @@ import java.util.Optional;
 
 public class Config {
     enum ConfigKeys {
+        // TODO: 16.05.2023 Согласовать порт 3306? или 8080
         PORT("PORT", "8080"),
-        DB_URI("USE_HOST_ENV_KEY", "jdbc:postgresql://localhost:5432"),
+        DB_URI("USE_HOST_ENV_KEY", "jdbc:mysql://tinderdb.cs3evdommxcg.eu-north-1.rds.amazonaws.com:3306"),
         DB_NAME("USE_HOST_ENV_KEY", "dev"),
-        DB_USER("USE_HOST_ENV_KEY", "postgres"),
-        DB_PASSWORD("USE_HOST_ENV_KEY", "12345678");
+        DB_USER("USE_HOST_ENV_KEY", "admin"),
+        DB_PASSWORD("USE_HOST_ENV_KEY", "adminadmin");
 
         private final String key;
         private final String defaultValue;
