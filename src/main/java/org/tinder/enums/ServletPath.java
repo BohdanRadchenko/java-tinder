@@ -1,6 +1,7 @@
 package org.tinder.enums;
 
 public enum ServletPath {
+    STATIC("/static"),
     STATIC_WILDCARD("/static/*"),
     HOME("/"),
 
@@ -11,7 +12,8 @@ public enum ServletPath {
     LOGIN("/login"),
     REGISTER("/register"),
     LOGOUT("/logout"),
-    MESSAGES("/messages/*");
+    MESSAGES("/messages"),
+    MESSAGES_WILDCARD("/messages/*");
 
     private final String path;
 

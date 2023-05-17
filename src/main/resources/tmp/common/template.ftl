@@ -13,6 +13,9 @@
         <meta name="author" content="">
 
         <title>${title}</title>
+        <link rel="icon" href="static/img/favicon.ico">
+        <link href="static/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="static/css/style.css">
         <#nested>
     </head>
 </#macro>
@@ -22,5 +25,22 @@
     <div class="container">
         <#nested>
     </div>
+    </body>
+</#macro>
+
+<#macro body_auth>
+    <body>
+        <aside class="d-none d-sm-flex">
+            <nav>
+<#--                <button>1</button>-->
+<#--                <button>1</button>-->
+<#--                <button>1</button>-->
+<#--                <button>1</button>-->
+<#--                <button>1</button>-->
+            </nav>
+        </aside>
+        <div class="container auth">
+            <#nested>
+        </div>
     </body>
 </#macro>
