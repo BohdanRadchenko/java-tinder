@@ -15,7 +15,7 @@ public class Database {
         flyway.migrate();
     }
 
-    public static Connection connect() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(Config.getDbConnectionUri(), Config.getDbUser(), Config.getDbPassword());
     }
 }

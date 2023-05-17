@@ -9,11 +9,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class StaticContentServlet extends HttpServlet {
-    private final String osStaticLocation; //save static content
-    public StaticContentServlet(String osStaticLocation) {
+public class StaticServlet extends HttpServlet {
+    private final String osStaticLocation;
+
+    public StaticServlet(String osStaticLocation) {
         this.osStaticLocation = osStaticLocation;
     }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pathInfo = req.getPathInfo();
