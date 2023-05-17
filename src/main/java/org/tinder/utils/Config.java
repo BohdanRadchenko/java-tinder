@@ -4,7 +4,6 @@ import java.util.Optional;
 
 public class Config {
     enum ConfigKeys {
-        // TODO: 16.05.2023 Согласовать порт 3306? или 8080
         PORT("PORT", "8080"),
         DB_URI("USE_HOST_ENV_KEY", "jdbc:mysql://tinderdb.cs3evdommxcg.eu-north-1.rds.amazonaws.com:3306"),
         DB_NAME("USE_HOST_ENV_KEY", "dev"),
