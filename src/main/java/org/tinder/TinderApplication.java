@@ -25,10 +25,6 @@ public class TinderApplication implements Runnable {
     private void initDatabase() throws Exception {
         System.out.println("db connection...");
         Database.connect();
-
-        //TODO: remove next line.
-        System.out.println("work with database");
-
         System.out.println("db connected...");
     }
 
@@ -58,13 +54,13 @@ public class TinderApplication implements Runnable {
     @Override
     public void run() {
         try {
-            //TODO: before starting server create database connection
             initDatabase();
 
             initMapping();
 
             server.start();
         } catch (Exception e) {
+            Database.close();
             throw new RuntimeException(e);
         }
     }

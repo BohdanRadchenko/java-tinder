@@ -31,6 +31,15 @@ public class Database {
         }
         return connection;
     }
+
+    public static void close() {
+        try {
+            if (connection == null) return;
+            connection.close();
+        } catch (SQLException ex) {
+            throw new DatabaseException("Close database exception", ex);
+        }
+    }
 }
 
 

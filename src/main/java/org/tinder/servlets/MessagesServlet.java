@@ -80,6 +80,8 @@ public class MessagesServlet extends HttpServlet {
     }
 
     private List<Message> getChatMessages(String chatId) {
+        List<Message> messages = new ArrayList<>();
+        if (chatId == null || chatId.isBlank()) return messages;
         String sql = """
                 SELECT u.id as id, u.email as email, m.content as content
                                       FROM messages m
@@ -88,7 +90,6 @@ public class MessagesServlet extends HttpServlet {
                                       WHERE chat = c.id
                                       order by created_at;
                 """;
-        List<Message> messages = new ArrayList<>();
         try {
             ResultSet resultSet = SqlRequester
                     .of(Database.getConnection(), sql)
@@ -105,32 +106,19 @@ public class MessagesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String chatId = "57cd7a2a-a142-40f7-935e-7591af9d7bd6";
+//        String chatId = "57cd7a2a-a142-40f7-935e-7591af9d7bd6";
         int userId = 1;
+        String chatId = (String) req.getAttribute("chatId");
+//        String userId = (String) req.getAttribute("userId");
 
-//        String chatId = (String) req.getAttribute("chatId");
         HashMap<String, Object> data = new HashMap<>();
         List<Chat> userChats = getUserChats(userId);
         List<Message> messages = getChatMessages(chatId);
 
-//        ArrayList<Chat> chats = new ArrayList<>();
-//        String[] strings = {"Hii", "hiii\nHow are you ?", "nice\nAre you fine ?", "Yes always", "Byy", "Byy", "Byy", "msg text 1", "msg text 2", "msg text 3"};
-//
-//        ArrayList<Message> messages = new ArrayList<>();
-//        IntStream.range(0, 10).forEach(c -> {
-//            String id = UUID.randomUUID().toString();
-//            User user = new User(c, "mail@mail.com");
-//            chats.add(new Chat(id, user, String.format("last message %d", c)));
-//            messages.add(Message.create(strings[c]));
-//        });
-
-//        data.put("chats", chats);
-//        data.put("messages", messages);
-//        data.put("chatId", chatId);
-
         data.put("chats", userChats);
         data.put("messages", messages);
         data.put("chatId", chatId);
+        data.put("userId", userId);
 
         try (PrintWriter w = resp.getWriter()) {
             FMTemplate

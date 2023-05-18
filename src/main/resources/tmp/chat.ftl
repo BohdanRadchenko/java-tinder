@@ -21,12 +21,12 @@
         <div class="chat">
             <div class="chat__users">
                 <div class="chat__users-header">
-                    Chat header
+                    Chats
                 </div>
                 <ul class="chat__users-list">
                     <#list chats as chat>
                         <li
-                                class="chat__users-item ${(chatId = chat.chatId())?then("active", "")}"
+                                class="chat__users-item ${(chatId == chat.chatId())?then("active", "")}"
                                 data-chatId=${chat.chatId()}
                         >
                             <div class="chat__users-item-container">
@@ -47,13 +47,13 @@
                 </ul>
             </div>
             <div class="chat__messages">
-                <div class="chat__messages-header">
-                    Chat header
-                </div>
                 <#if chatId?has_content>
+                    <div class="chat__messages-header">
+                        Chat header
+                    </div>
                     <ul class="chat__messages-list">
                         <#list messages as message>
-                            <li class="chat__messages-item ${(message.from().id() == 1)?then("right", "left")}">
+                            <li class="chat__messages-item ${(message.from().id() == userId)?then("right", "left")}">
                                 <div class="chat__messages-item__wrap">
                                     <span>${message.msg()}</span>
                                 </div>

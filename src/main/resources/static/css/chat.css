@@ -148,8 +148,8 @@
     display: block;
     position: relative;
     width: auto;
+    min-width: 50px;
     max-width: 60%;
-    min-width: 10%;
     border-radius: 0.25rem;
     padding: 4px 8px;
 }
