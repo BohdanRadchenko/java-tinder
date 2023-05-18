@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 public class MessagesServlet extends HttpServlet {
+    // TODO: 18.05.2023 draft. refactor class after create chat ws server endpoint and services and login and ws client
     public record User(Integer id, String email, String name, String avatar) {
         public static User load(ResultSet resultSet) {
             if (resultSet == null) return null;
