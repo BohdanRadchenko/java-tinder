@@ -39,7 +39,6 @@ body {
 }
 
 .container.auth {
-    margin-left: 66px;
     background-color: transparent;
     padding: 0;
 }
@@ -367,4 +366,11 @@ input:focus {
 
 .options-left i:hover, .options-right i:hover {
     color: #000;
+}
+
+
+@media screen and (min-width: 576px) {
+    .container.auth {
+        margin-left: 66px;
+    }
 }
