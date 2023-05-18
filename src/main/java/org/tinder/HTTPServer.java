@@ -6,7 +6,6 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.tinder.enums.ServletPath;
 import org.tinder.filters.RequestFilter;
-import org.tinder.filters.StaticForwardFilter;
 import org.tinder.interfaces.HttpFilter;
 
 import javax.servlet.DispatcherType;
@@ -60,6 +59,10 @@ public class HTTPServer {
             addFilter(filter, servletPath);
         }
         addServlet(servlet, servletPath);
+    }
+
+    public ServletContextHandler getContext() {
+        return this.context;
     }
 
     public void start() throws Exception {

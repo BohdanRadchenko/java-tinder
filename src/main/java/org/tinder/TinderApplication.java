@@ -28,6 +28,14 @@ public class TinderApplication implements Runnable {
         System.out.println("db connected...");
     }
 
+
+    private void initWs() {
+        System.out.println("ws init...");
+        WSServer.of(server.getContext());
+        System.out.println("ws configured...");
+    }
+
+
     private void initMapping() {
         // static content
         //TODO: create static servlet
@@ -55,6 +63,8 @@ public class TinderApplication implements Runnable {
     public void run() {
         try {
             initDatabase();
+
+            initWs();
 
             initMapping();
 

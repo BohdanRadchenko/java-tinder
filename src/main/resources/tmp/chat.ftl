@@ -9,8 +9,54 @@
 
         <script type="text/javascript">
             document.addEventListener("DOMContentLoaded", () => {
+                //ws
+                const wsUrl = `ws://localhost:8080/chats/${chatId}`;
+                let webSocket;
 
                 const usersList = document.querySelector(".chat__users-list");
+                const textarea = document.querySelector("#text-message");
+                const form = document.querySelector("#form-message");
+                const messageList = document.querySelector(".chat__messages-list");
+
+                const scrollMessageList = () => {
+                    messageList.scrollTo(0, messageList.scrollHeight);
+                }
+
+                const updateList = message => {
+                    messageList.innerHTML += "<br/>" + message;
+                    scrollMessageList();
+                }
+
+                const connect = () => {
+                    if (webSocket !== undefined
+                        && webSocket.readyState !== WebSocket.CLOSED) {
+                        return;
+                    }
+
+                    webSocket = new WebSocket(wsUrl);
+
+                    webSocket.onopen = event => {
+                        console.log("onopen: Connected!", event);
+                    };
+
+                    webSocket.onmessage = event => {
+                        console.log("onmessage event", event);
+                        console.log("onmessage event.data", event.data);
+                        updateList(event.data);
+                    };
+
+                    webSocket.onclose = event => {
+                        console.log("onclose: Connection Closed", event);
+                    };
+                }
+
+                const sendMessage = message => {
+                    if (webSocket === undefined || webSocket === null) return;
+                    webSocket.send(message);
+                    textarea.value = "";
+                }
+
+                // messages
                 usersList.onclick = e => {
                     e.preventDefault();
                     const chatId = e.target.getAttribute("data-chatId");
@@ -19,15 +65,9 @@
                     location.href = new URL(path + "/" + chatId, location)
                 }
 
-                const textarea = document.querySelector("#text-message");
-                const form = document.querySelector("#form-message");
-
-                const sendMessage = message => {
-                    console.log(message);
-                }
-
                 textarea.onkeydown = e => {
                     if (e.keyCode === 13 && e.shiftKey) {
+                        e.preventDefault();
                         sendMessage(e.target.value)
                     }
                 }
@@ -36,6 +76,9 @@
                     e.preventDefault();
                     sendMessage(new FormData(form).get("text"))
                 }
+
+                scrollMessageList();
+                connect();
             });
         </script>
     </@t.head>
