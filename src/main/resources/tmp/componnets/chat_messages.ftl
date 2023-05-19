@@ -29,7 +29,7 @@
                             </#if>
                             </span>
                         </div>
-                        <span class="receive-msg-time">
+                        <span class="chat__messages-item__time">
                             <#if message.from().id() != userId>
                                 ${message.from().name()},
                             </#if>
@@ -45,12 +45,16 @@
                     id="text-message"
                     name="text"
                     class="chat__messages-text"
-                    autofocus
                     placeholder="Write a message..."
+                    rows="2"
+                    autofocus
+                    data-autoresize
+            ></textarea>
+            <form
+                    id="form-message"
+                    class="chat__messages-text__form"
             >
-            </textarea>
-            <form id="form-message">
-                <button type="submit">
+                <button id="form-message-submit" type="submit" disabled>
                     <i class="fa fa-paper-plane" aria-hidden="true"></i>
                 </button>
             </form>

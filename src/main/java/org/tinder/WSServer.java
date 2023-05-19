@@ -4,6 +4,8 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.websocket.javax.server.config.JavaxWebSocketServletContainerInitializer;
 import org.tinder.sockets.ChatSocket;
 
+import javax.websocket.server.ServerEndpointConfig;
+
 public class WSServer {
     private final ServletContextHandler context;
 

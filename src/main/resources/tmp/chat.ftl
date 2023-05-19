@@ -16,14 +16,62 @@
                 const usersList = document.querySelector(".chat__users-list");
                 const textarea = document.querySelector("#text-message");
                 const form = document.querySelector("#form-message");
+                const formBtnSubmit = document.querySelector(".chat__messages-text__form button[type=\"submit\"]");
                 const messageList = document.querySelector(".chat__messages-list");
 
                 const scrollMessageList = () => {
                     messageList.scrollTo(0, messageList.scrollHeight);
                 }
 
-                const updateList = message => {
-                    messageList.innerHTML += "<br/>" + message;
+                const updateList = data => {
+                    const parseData = JSON.parse(data, (key, value) => value);
+                    console.log(parseData);
+
+
+                    const li = document.createElement("li");
+                    li.style.opacity = 0;
+                    li.classList.add("chat__messages-item");
+                    li.classList.add(${userId} === parseData.from.id ? "right" : "left");
+
+                    if (parseData.from.id !== ${userId}) {
+                        const avatarContainer = document.createElement("div");
+                        avatarContainer.classList.add("chat__messages-item__avatar");
+                        const avatar = document.createElement("img");
+                        avatar.src = parseData.from.avatar;
+                        avatar.alt = parseData.from.name;
+                        avatarContainer.appendChild(avatar)
+                        li.appendChild(avatarContainer)
+                    }
+
+                    const msgWrapper = document.createElement("div");
+                    msgWrapper.classList.add("chat__messages-item__wrapper");
+
+                    const msgInner = document.createElement("div");
+                    msgWrapper.classList.add("chat__messages-item__inner");
+
+                    const content = document.createElement("p");
+                    content.style.whiteSpace = "pre-wrap";
+
+                    if (parseData.message.type === "LINK") {
+                        const a = document.createElement("a");
+                        a.href = parseData.message.content;
+                        a.innerText = parseData.message.content;
+                        a.target = "_blank";
+                    } else {
+                        content.innerText = parseData.message.content;
+                    }
+
+                    msgInner.appendChild(content);
+                    msgWrapper.appendChild(msgInner);
+                    li.appendChild(msgWrapper);
+
+                    messageList.appendChild(li)
+
+                    const t = setTimeout(() => {
+                        li.style.opacity = 1;
+                        clearTimeout(t);
+                    }, 1);
+
                     scrollMessageList();
                 }
 
@@ -40,7 +88,6 @@
                     };
 
                     webSocket.onmessage = event => {
-                        console.log("onmessage event", event);
                         console.log("onmessage event.data", event.data);
                         updateList(event.data);
                     };
@@ -51,12 +98,17 @@
                 }
 
                 const sendMessage = message => {
-                    if (webSocket === undefined || webSocket === null) return;
+                    if (webSocket === undefined
+                        || webSocket === null
+                        || message.length === 0) return;
                     webSocket.send(message);
                     textarea.value = "";
+                    textarea.style.height = 'auto';
+                    formBtnSubmit.disabled = true;
                 }
 
-                // messages
+
+                // chat list
                 usersList.onclick = e => {
                     e.preventDefault();
                     const chatId = e.target.getAttribute("data-chatId");
@@ -65,11 +117,14 @@
                     location.href = new URL(path + "/" + chatId, location)
                 }
 
+                // messages
                 textarea.onkeydown = e => {
                     if (e.keyCode === 13 && e.shiftKey) {
                         e.preventDefault();
                         sendMessage(e.target.value)
                     }
+                    if (e.target.value.length !== 0) formBtnSubmit.disabled = false;
+                    if (e.target.value.length === 0) formBtnSubmit.disabled = true;
                 }
 
                 form.onsubmit = e => {
@@ -77,7 +132,24 @@
                     sendMessage(new FormData(form).get("text"))
                 }
 
+
+                // autoresize
+                const autoResize = () => {
+                    document.querySelectorAll('[data-autoresize]').forEach(element => {
+                        const offset = element.offsetHeight - element.clientHeight;
+                        element.addEventListener('input', event => {
+                            event.target.style.height = 'auto';
+                            if (event.target.style.height >= 400) {
+                                event.target.style.height = event.target.scrollHeight + offset + 'px';
+                            }
+                        });
+                        element.removeAttribute('data-autoresize');
+                    });
+                }
+
+                // call
                 scrollMessageList();
+                autoResize();
                 connect();
             });
         </script>

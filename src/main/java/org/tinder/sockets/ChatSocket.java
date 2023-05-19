@@ -1,5 +1,8 @@
 package org.tinder.sockets;
 
+import com.google.gson.Gson;
+import org.tinder.servlets.MessagesServlet;
+
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -10,51 +13,47 @@ import java.util.concurrent.CountDownLatch;
 @ClientEndpoint
 @ServerEndpoint(value = "/chats/{id}")
 public class ChatSocket {
+
+    // TODO: 18.05.2023 draft code. remove
+    private record Message(String content, String type) {
+    }
+
+    private record MessageResponse(MessagesServlet.User from, Message message) {
+    }
+
     private static final Map<String, List<Session>> sessions = new HashMap<>();
     private final CountDownLatch closureLatch = new CountDownLatch(1);
 
     @OnOpen
     public void onWebSocketConnect(@PathParam("id") String id, Session sess) {
-        System.out.println("sessions size: "+ sessions.size());
+        System.out.println("WebSocket opened: " + sess.getId());
         List<Session> ss = sessions.getOrDefault(id, new LinkedList<>());
         ss.add(sess);
         sessions.put(id, ss);
-        System.out.println("WebSocket opened: " + sess.getId());
-        System.out.println("Socket Connected: " + sess);
-        System.out.println("sessions size: "+ sessions.size());
     }
 
     @OnMessage
     public void onWebSocketText(@PathParam("id") String id, Session sess, String message) throws IOException {
-        System.out.println("id: " + id);
-        System.out.println("Message received: " + message);
-
-        for (Map.Entry<String, List<Session>> entry : sessions.entrySet()) {
-            String key = entry.getKey();
-            List<Session> value = entry.getValue();
-            System.out.println(key);
-            value.forEach(s -> {
-                System.out.println(s.getId());
-                try {
-                    s.getBasicRemote().sendText(message.toUpperCase());
-                } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
-                }
-            });
+        for (Session session : sessions.get(id)) {
+            try {
+                Gson gson = new Gson();
+                MessagesServlet.User user = new MessagesServlet.User(1, "email", "name", "https://www.graphicpie.com/wp-content/uploads/2020/11/red-among-us-png-842x1024.png");
+                Message msg = new Message(message.toUpperCase(), "TEXT");
+                MessageResponse msgRespo = new MessageResponse(user, msg);
+                session.getBasicRemote().sendText(gson.toJson(msgRespo));
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
         }
 
-        System.out.println("Received TEXT message: " + message);
-
-        if (message.toLowerCase(Locale.US).contains("bye")) {
-            sess.close(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "Thanks"));
+        if (message.toLowerCase(Locale.US).contains("close")) {
+            sess.close(new CloseReason(CloseReason.CloseCodes.NORMAL_CLOSURE, "Session closed"));
         }
     }
 
     @OnClose
     public void onWebSocketClose(CloseReason reason) {
         System.out.println("Closing a WebSocket due to " + reason.getReasonPhrase());
-
-        System.out.println("Socket Closed: " + reason);
         closureLatch.countDown();
     }
 
