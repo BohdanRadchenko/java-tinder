@@ -40,9 +40,9 @@ public class TinderApplication implements Runnable {
         server.addServlet(new HomeServlet(), ServletPath.HOME);
         server.addServlet(new RedirectServlet(), ServletPath.REDIRECT, new RedirectFilter(services));
         server.addServlet(new TemplateServlet(), ServletPath.TEMPLATE);
-        
+
         //auth
-            
+        server.addServlet(new LoginServlet(), ServletPath.LOGIN);
         //chat
     }
 
