@@ -1,10 +1,8 @@
 <#import "common/template.ftl" as t>
 
 <@t.page>
-    <@t.head title="Test page"/>
+    <@t.head title="Login"/>
     <@t.body>
-        <div>
-            Test template
-        </div>
+        <#include "componnets/forms/login_form.ftl">
     </@t.body>
 </@t.page>

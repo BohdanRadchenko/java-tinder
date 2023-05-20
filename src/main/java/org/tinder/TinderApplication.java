@@ -2,7 +2,6 @@ package org.tinder;
 
 import org.tinder.enums.ServletPath;
 import org.tinder.filters.MessagesFilter;
-import org.tinder.filters.RedirectFilter;
 import org.tinder.filters.StaticForwardFilter;
 import org.tinder.servlets.*;
 import org.tinder.utils.Config;
@@ -34,24 +33,19 @@ public class TinderApplication implements Runnable {
     private void initMapping() {
         // static content
         //TODO: create static servlet
-        server.addFilter(new StaticForwardFilter(), ServletPath.WILDCARD);
-        server.addServlet(new StaticServlet(ResourcesOps.dir(Constants.STATIC_CONTENT_DIR)), ServletPath.STATIC_WILDCARD);
+        server.addFilter(ServletPath.WILDCARD, new StaticForwardFilter());
+        server.addServlet(ServletPath.STATIC_WILDCARD, new StaticServlet(ResourcesOps.dir(Constants.STATIC_CONTENT_DIR)));
 
         // home
         // TODO: example home servlet. Remove in development
-        server.addServlet(new HomeServlet(), ServletPath.HOME);
-        server.addServlet(new RedirectServlet(), ServletPath.REDIRECT, new RedirectFilter());
-        server.addServlet(new TemplateServlet(), ServletPath.TEMPLATE);
+        server.addServlet(ServletPath.HOME, new HomeServlet());
 
-        // auth
-
-        // liked
-
-        // users
+        //auth
+        server.addServlet(ServletPath.LOGIN, new LoginServlet());
 
         // messages
-        server.addServlet(new MessagesServlet(), ServletPath.MESSAGES);
-        server.addServlet(new MessagesServlet(), ServletPath.MESSAGES_WILDCARD, new MessagesFilter());
+        server.addServlet(ServletPath.MESSAGES, new MessagesServlet());
+        server.addServlet(ServletPath.MESSAGES_WILDCARD, new MessagesServlet(), new MessagesFilter());
     }
 
     @Override

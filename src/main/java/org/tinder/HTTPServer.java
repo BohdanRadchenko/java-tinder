@@ -22,43 +22,43 @@ public class HTTPServer {
         context = new ServletContextHandler();
     }
 
-    public void addFilter(Filter filter, String path, EnumSet<DispatcherType> dispatcherTypes) {
+    public void addFilter(String path, Filter filter, EnumSet<DispatcherType> dispatcherTypes) {
         context.addFilter(new FilterHolder(filter), path, dispatcherTypes);
     }
 
-    public void addFilter(Filter filter, String path) {
+    public void addFilter(String path, Filter filter) {
         EnumSet<DispatcherType> dt = EnumSet.of(DispatcherType.REQUEST);
-        addFilter(filter, path, dt);
+        addFilter(path, filter, dt);
     }
 
-    public void addFilter(RequestFilter filter, String path) {
-        addFilter(filter.of(), path);
+    public void addFilter(String path, RequestFilter filter) {
+        addFilter(path, filter.of());
     }
 
-    public void addFilter(Filter filter, ServletPath servletPath) {
-        addFilter(filter, servletPath.path());
+    public void addFilter(ServletPath servletPath, Filter filter) {
+        addFilter(servletPath.path(), filter);
     }
 
-    public void addFilter(RequestFilter filter, ServletPath servletPath) {
-        addFilter(filter.of(), servletPath);
+    public void addFilter(ServletPath servletPath, RequestFilter filter) {
+        addFilter(servletPath, filter.of());
     }
 
-    void addServlet(HttpServlet servlet, ServletPath servletPath) {
+    void addServlet(ServletPath servletPath, HttpServlet servlet) {
         context.addServlet(new ServletHolder(servlet), servletPath.path());
     }
 
-    public void addServlet(HttpServlet servlet, ServletPath servletPath, HttpFilter... filters) {
+    public void addServlet(ServletPath servletPath, HttpServlet servlet, HttpFilter... filters) {
         for (HttpFilter filter : filters) {
-            addFilter(filter, servletPath);
+            addFilter(servletPath, filter);
         }
-        addServlet(servlet, servletPath);
+        addServlet(servletPath, servlet);
     }
 
-    public void addServlet(HttpServlet servlet, ServletPath servletPath, RequestFilter... filters) {
+    public void addServlet(ServletPath servletPath, HttpServlet servlet, RequestFilter... filters) {
         for (RequestFilter filter : filters) {
-            addFilter(filter, servletPath);
+            addFilter(servletPath, filter);
         }
-        addServlet(servlet, servletPath);
+        addServlet(servletPath, servlet);
     }
 
     public ServletContextHandler getContext() {

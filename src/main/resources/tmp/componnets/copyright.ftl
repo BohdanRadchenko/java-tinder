@@ -1,0 +1,1 @@
+<p class="mt-5 mb-3 text-muted">&copy; DANIT Step Tinder 2023</p>
