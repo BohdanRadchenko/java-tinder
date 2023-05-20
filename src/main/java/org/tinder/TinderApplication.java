@@ -1,7 +1,6 @@
 package org.tinder;
 
 import org.tinder.enums.ServletPath;
-import org.tinder.filters.RedirectFilter;
 import org.tinder.services.Services;
 import org.tinder.servlets.*;
 import org.tinder.utils.Config;
@@ -38,11 +37,10 @@ public class TinderApplication implements Runnable {
         // home
         // TODO: example home servlet. Remove in development
         server.addServlet(new HomeServlet(), ServletPath.HOME);
-        server.addServlet(new RedirectServlet(), ServletPath.REDIRECT, new RedirectFilter(services));
-        server.addServlet(new TemplateServlet(), ServletPath.TEMPLATE);
 
         //auth
         server.addServlet(new LoginServlet(), ServletPath.LOGIN);
+
         //chat
     }
 
