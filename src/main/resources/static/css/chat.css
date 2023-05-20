@@ -136,7 +136,7 @@
     flex-grow: 1;
     overflow: auto;
     padding: 20px 16px 0 16px;
-    transition: all .1s linear;
+    transition: all .2s linear;
 }
 
 .chat__messages-item {
