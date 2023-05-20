@@ -1,7 +1,6 @@
 package org.tinder.filters;
 
 import org.tinder.enums.ServletPath;
-import org.tinder.services.Services;
 import org.tinder.utils.Respondent;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,10 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class RedirectFilter extends RequestFilter {
-
-    public RedirectFilter(Services services) {
-        super(services);
-    }
 
     @Override
     boolean accept(HttpServletRequest req, HttpServletResponse res) {

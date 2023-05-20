@@ -1,6 +1,9 @@
 package org.tinder.sockets;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.tinder.entities.SocketOnMessage;
 import org.tinder.servlets.MessagesServlet;
 
 import javax.websocket.*;
@@ -37,10 +40,14 @@ public class ChatSocket {
         for (Session session : sessions.get(id)) {
             try {
                 Gson gson = new Gson();
+                SocketOnMessage socketOnMessage = SocketOnMessage.of(message);
+                System.out.println("socketOnMessage: " + socketOnMessage);
+
                 MessagesServlet.User user = new MessagesServlet.User(1, "email", "name", "https://www.graphicpie.com/wp-content/uploads/2020/11/red-among-us-png-842x1024.png");
                 Message msg = new Message(message.toUpperCase(), "TEXT");
                 MessageResponse msgRespo = new MessageResponse(user, msg);
                 session.getBasicRemote().sendText(gson.toJson(msgRespo));
+                
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }

@@ -24,21 +24,21 @@
                 }
 
                 const updateList = data => {
-                    const parseData = JSON.parse(data, (key, value) => value);
-                    console.log(parseData);
+                    const parsedData = JSON.parse(data, (key, value) => value);
+                    console.log(parsedData);
 
 
                     const li = document.createElement("li");
                     li.style.opacity = 0;
                     li.classList.add("chat__messages-item");
-                    li.classList.add(${userId} === parseData.from.id ? "right" : "left");
+                    li.classList.add(${userId} === parsedData.from.id ? "right" : "left");
 
-                    if (parseData.from.id !== ${userId}) {
+                    if (parsedData.from.id !== ${userId}) {
                         const avatarContainer = document.createElement("div");
                         avatarContainer.classList.add("chat__messages-item__avatar");
                         const avatar = document.createElement("img");
-                        avatar.src = parseData.from.avatar;
-                        avatar.alt = parseData.from.name;
+                        avatar.src = parsedData.from.avatar;
+                        avatar.alt = parsedData.from.name;
                         avatarContainer.appendChild(avatar)
                         li.appendChild(avatarContainer)
                     }
@@ -52,13 +52,13 @@
                     const content = document.createElement("p");
                     content.style.whiteSpace = "pre-wrap";
 
-                    if (parseData.message.type === "LINK") {
+                    if (parsedData.message.type === "LINK") {
                         const a = document.createElement("a");
-                        a.href = parseData.message.content;
-                        a.innerText = parseData.message.content;
+                        a.href = parsedData.message.content;
+                        a.innerText = parsedData.message.content;
                         a.target = "_blank";
                     } else {
-                        content.innerText = parseData.message.content;
+                        content.innerText = parsedData.message.content;
                     }
 
                     msgInner.appendChild(content);
@@ -73,6 +73,14 @@
                     }, 1);
 
                     scrollMessageList();
+                }
+
+                const socketSend = message => {
+                    const data = {
+                        id: ${userId},
+                        message: message,
+                    }
+                    webSocket.send(JSON.stringify(data));
                 }
 
                 const connect = () => {
@@ -101,7 +109,7 @@
                     if (webSocket === undefined
                         || webSocket === null
                         || message.length === 0) return;
-                    webSocket.send(message);
+                    socketSend(message)
                     textarea.value = "";
                     textarea.style.height = 'auto';
                     formBtnSubmit.disabled = true;

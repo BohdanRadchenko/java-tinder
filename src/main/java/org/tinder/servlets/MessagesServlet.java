@@ -2,6 +2,8 @@ package org.tinder.servlets;
 
 import freemarker.template.TemplateException;
 import org.tinder.exceptions.DatabaseException;
+import org.tinder.models.Message;
+import org.tinder.services.MessageServices;
 import org.tinder.utils.Database;
 import org.tinder.utils.FMTemplate;
 import org.tinder.utils.SqlRequester;
@@ -19,6 +21,8 @@ import java.sql.Timestamp;
 import java.util.*;
 
 public class MessagesServlet extends HttpServlet {
+    private final MessageServices messageServices = new MessageServices();
+
     // TODO: 18.05.2023 draft. refactor class after create chat ws server endpoint and services and login and ws client
     public record User(Integer id, String email, String name, String avatar) {
         public static User load(ResultSet resultSet) {
@@ -48,23 +52,23 @@ public class MessagesServlet extends HttpServlet {
         }
     }
 
-    public record Message(User from, String msg, String type, String time) {
-        public static Message load(ResultSet resultSet) {
-            if (resultSet == null) return null;
-            try {
-                String content = resultSet.getString("content");
-                String type = resultSet.getString("type");
-                String time = "Jan 25, 6:20 PM";
-                Timestamp createdAt = resultSet.getTimestamp("created_at");
-                if (createdAt != null) {
-                    time = new Date(createdAt.getTime()).toString();
-                }
-                return new Message(User.load(resultSet), content, type, time);
-            } catch (SQLException ex) {
-                throw new DatabaseException("Message load exception", ex);
-            }
-        }
-    }
+//    public record Message(User from, String msg, String type, String time) {
+//        public static Message load(ResultSet resultSet) {
+//            if (resultSet == null) return null;
+//            try {
+//                String content = resultSet.getString("content");
+//                String type = resultSet.getString("type");
+//                String time = "Jan 25, 6:20 PM";
+//                Timestamp createdAt = resultSet.getTimestamp("created_at");
+//                if (createdAt != null) {
+//                    time = new Date(createdAt.getTime()).toString();
+//                }
+//                return new Message(User.load(resultSet), content, type, time);
+//            } catch (SQLException ex) {
+//                throw new DatabaseException("Message load exception", ex);
+//            }
+//        }
+//    }
 
     private List<Chat> getUserChats(int id) {
         String sql = """
@@ -90,32 +94,6 @@ public class MessagesServlet extends HttpServlet {
         }
     }
 
-    private List<Message> getChatMessages(String chatId) {
-        List<Message> messages = new ArrayList<>();
-        if (chatId == null || chatId.isBlank()) return messages;
-        String sql = """
-                SELECT u.id as id, u.email as email, u.avatar as avatar, m.content as content, mt.type as type, m.created_at as created_at
-                FROM messages m
-                    left join chats c on c.uuid = ?
-                    left join users u on u.id = m.user_from
-                    left join messages_types mt on mt.id = m.type
-                WHERE chat = c.id
-                ORDER BY created_at;
-                """;
-        try {
-            ResultSet resultSet = SqlRequester
-                    .of(Database.getConnection(), sql)
-                    .setString(chatId)
-                    .query();
-            while (resultSet.next()) {
-                messages.add(Message.load(resultSet));
-            }
-            return messages;
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        String chatId = "57cd7a2a-a142-40f7-935e-7591af9d7bd6";
@@ -130,7 +108,7 @@ public class MessagesServlet extends HttpServlet {
                 .filter(ch -> ch.chatId.equals(chatId))
                 .findFirst()
                 .orElse(null);
-        List<Message> messages = getChatMessages(chatId);
+        List<Message> messages = messageServices.messagesByChatId(chatId);
 
         data.put("chats", userChats);
         data.put("currentChat", currentChat);

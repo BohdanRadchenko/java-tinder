@@ -47,6 +47,12 @@
             >
                 <i class="fas fa-solid fa-heart"></i>
             </a>
+            <a
+                    href="/messages"
+                    class="d-none d-md-inline-flex mb-4 justify-content-center w-100 rst-btn"
+            >
+                <i class="fas fa-solid fa-comments"></i>
+            </a>
         </nav>
         <form action="/logout" method="POST">
             <button class="rst-btn d-flex justify-content-center w-100 align-content-center">

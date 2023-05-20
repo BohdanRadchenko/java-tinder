@@ -4,22 +4,17 @@ import org.tinder.enums.ServletPath;
 import org.tinder.filters.MessagesFilter;
 import org.tinder.filters.RedirectFilter;
 import org.tinder.filters.StaticForwardFilter;
-import org.tinder.services.Services;
 import org.tinder.servlets.*;
 import org.tinder.utils.Config;
 import org.tinder.utils.Constants;
 import org.tinder.utils.Database;
 import org.tinder.utils.ResourcesOps;
 
-import javax.xml.crypto.Data;
-
 public class TinderApplication implements Runnable {
     private final HTTPServer server;
-    private final Services services;
 
     public TinderApplication() {
         server = new HTTPServer(Config.getPort());
-        services = Services.create();
     }
 
     private void initDatabase() throws Exception {
@@ -45,7 +40,7 @@ public class TinderApplication implements Runnable {
         // home
         // TODO: example home servlet. Remove in development
         server.addServlet(new HomeServlet(), ServletPath.HOME);
-        server.addServlet(new RedirectServlet(), ServletPath.REDIRECT, new RedirectFilter(services));
+        server.addServlet(new RedirectServlet(), ServletPath.REDIRECT, new RedirectFilter());
         server.addServlet(new TemplateServlet(), ServletPath.TEMPLATE);
 
         // auth

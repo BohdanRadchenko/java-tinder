@@ -18,20 +18,20 @@
                         <div class="chat__messages-item__inner">
                             <#if message.type() == "LINK">
                                 <p>
-                                    <a href="${message.msg()}" target="_blank">
-                                        ${message.msg()}
+                                    <a href="${message.content()}" target="_blank">
+                                        ${message.content()}
                                     </a>
                                 </p>
                             <#else >
                                 <p>
-                                    ${message.msg()}
+                                    ${message.content()}
                                 </p>
                             </#if>
                             </span>
                         </div>
                         <span class="chat__messages-item__time">
                             <#if message.from().id() != userId>
-                                ${message.from().name()},
+                                ${message.from().firstName()},
                             </#if>
                             ${message.time()}
                         </span>
