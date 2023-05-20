@@ -38,7 +38,7 @@
                         avatarContainer.classList.add("chat__messages-item__avatar");
                         const avatar = document.createElement("img");
                         avatar.src = parsedData.from.avatar;
-                        avatar.alt = parsedData.from.name;
+                        avatar.alt = parsedData.from.firstName;
                         avatarContainer.appendChild(avatar)
                         li.appendChild(avatarContainer)
                     }
@@ -47,22 +47,31 @@
                     msgWrapper.classList.add("chat__messages-item__wrapper");
 
                     const msgInner = document.createElement("div");
-                    msgWrapper.classList.add("chat__messages-item__inner");
+                    msgInner.classList.add("chat__messages-item__inner");
 
                     const content = document.createElement("p");
                     content.style.whiteSpace = "pre-wrap";
 
-                    if (parsedData.message.type === "LINK") {
+                    if (parsedData.content.type === "LINK") {
                         const a = document.createElement("a");
-                        a.href = parsedData.message.content;
-                        a.innerText = parsedData.message.content;
+                        a.href = parsedData.content.message;
+                        a.innerText = parsedData.content.message;
                         a.target = "_blank";
                     } else {
-                        content.innerText = parsedData.message.content;
+                        content.innerText = parsedData.content.message;
                     }
-
                     msgInner.appendChild(content);
+
+                    const msgTime = document.createElement("span");
+                    msgTime.classList.add("chat__messages-item__time");
+
+                    const stringTimeName = parsedData.from.id !== ${userId}
+                        ? parsedData.from.firstName + ", "
+                        : ""
+                    msgTime.innerText = stringTimeName + parsedData.content.time;
+
                     msgWrapper.appendChild(msgInner);
+                    msgWrapper.appendChild(msgTime);
                     li.appendChild(msgWrapper);
 
                     messageList.appendChild(li)
@@ -77,7 +86,8 @@
 
                 const socketSend = message => {
                     const data = {
-                        id: ${userId},
+                        userId: ${userId},
+                        chatId: `${chatId}`,
                         message: message,
                     }
                     webSocket.send(JSON.stringify(data));

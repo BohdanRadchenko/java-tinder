@@ -9,17 +9,18 @@ import java.util.Optional;
 
 public class UserDao implements DAO<User> {
     private final Connection connection;
+
     public UserDao(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public boolean delete(Integer id) throws Exception {
+    public boolean delete(Integer id) throws SQLException {
         throw new RuntimeException("Not implement");
     }
 
     @Override
-    public Optional<User> getById(Integer id) throws Exception {
+    public Optional<User> getById(Integer id) throws SQLException {
         throw new RuntimeException("Not implement");
     }
 

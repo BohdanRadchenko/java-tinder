@@ -1,10 +1,9 @@
 package org.tinder.sockets;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.tinder.entities.SocketOnMessage;
-import org.tinder.servlets.MessagesServlet;
+import org.tinder.entities.SocketReqMessage;
+import org.tinder.entities.SocketResMessage;
+import org.tinder.models.Message;
+import org.tinder.services.MessageServices;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -16,13 +15,7 @@ import java.util.concurrent.CountDownLatch;
 @ClientEndpoint
 @ServerEndpoint(value = "/chats/{id}")
 public class ChatSocket {
-
-    // TODO: 18.05.2023 draft code. remove
-    private record Message(String content, String type) {
-    }
-
-    private record MessageResponse(MessagesServlet.User from, Message message) {
-    }
+    private final MessageServices messageServices = new MessageServices();
 
     private static final Map<String, List<Session>> sessions = new HashMap<>();
     private final CountDownLatch closureLatch = new CountDownLatch(1);
@@ -39,15 +32,13 @@ public class ChatSocket {
     public void onWebSocketText(@PathParam("id") String id, Session sess, String message) throws IOException {
         for (Session session : sessions.get(id)) {
             try {
-                Gson gson = new Gson();
-                SocketOnMessage socketOnMessage = SocketOnMessage.of(message);
-                System.out.println("socketOnMessage: " + socketOnMessage);
+                SocketReqMessage reqMessage = SocketReqMessage.of(message);
 
-                MessagesServlet.User user = new MessagesServlet.User(1, "email", "name", "https://www.graphicpie.com/wp-content/uploads/2020/11/red-among-us-png-842x1024.png");
-                Message msg = new Message(message.toUpperCase(), "TEXT");
-                MessageResponse msgRespo = new MessageResponse(user, msg);
-                session.getBasicRemote().sendText(gson.toJson(msgRespo));
-                
+                int insertedId = messageServices.insert(reqMessage);
+                Message msg = messageServices.getById(insertedId);
+                SocketResMessage res = SocketResMessage.of(msg);
+                session.getBasicRemote().sendText(res.toJson());
+
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }

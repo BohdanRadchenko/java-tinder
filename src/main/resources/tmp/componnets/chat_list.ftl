@@ -5,8 +5,8 @@
     <ul class="chat__users-list">
         <#list chats as chat>
             <li
-                    class="chat__users-item ${(chatId == chat.chatId())?then("active", "")}"
-                    data-chatId=${chat.chatId()}
+                    class="chat__users-item ${(chatId == chat.chat())?then("active", "")}"
+                    data-chatId=${chat.chat()}
             >
                 <div class="chat__users-item-container">
                     <div class="chat__users-item-avatar">
