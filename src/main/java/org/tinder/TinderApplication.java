@@ -1,7 +1,8 @@
 package org.tinder;
 
 import org.tinder.enums.ServletPath;
-import org.tinder.services.Services;
+import org.tinder.filters.MessagesFilter;
+import org.tinder.filters.StaticForwardFilter;
 import org.tinder.servlets.*;
 import org.tinder.utils.Config;
 import org.tinder.utils.Constants;
@@ -9,51 +10,56 @@ import org.tinder.utils.Database;
 import org.tinder.utils.ResourcesOps;
 
 public class TinderApplication implements Runnable {
-    private final Database database;
     private final HTTPServer server;
-    private final Services services;
 
     public TinderApplication() {
-
-        database = new Database();
         server = new HTTPServer(Config.getPort());
-        services = Services.create();
     }
 
     private void initDatabase() throws Exception {
         System.out.println("db connection...");
-
-        //TODO: remove next line.
-        System.out.println("work with database");
-
+        Database.connect();
         System.out.println("db connected...");
     }
 
+
+    private void initWs() {
+        System.out.println("ws init...");
+        WSServer.of(server.getContext());
+        System.out.println("ws configured...");
+    }
+
+
     private void initMapping() {
         // static content
-        String osStaticLocation = ResourcesOps.dir(Constants.STATIC_CONTENT_DIR);
-        server.addServlet(new StaticServlet(osStaticLocation), ServletPath.STATIC_WILDCARD);
+        //TODO: create static servlet
+        server.addFilter(ServletPath.WILDCARD, new StaticForwardFilter());
+        server.addServlet(ServletPath.STATIC_WILDCARD, new StaticServlet(ResourcesOps.dir(Constants.STATIC_CONTENT_DIR)));
 
         // home
         // TODO: example home servlet. Remove in development
-        server.addServlet(new HomeServlet(), ServletPath.HOME);
+        server.addServlet(ServletPath.HOME, new HomeServlet());
 
         //auth
-        server.addServlet(new LoginServlet(), ServletPath.LOGIN);
+        server.addServlet(ServletPath.LOGIN, new LoginServlet());
 
-        //chat
+        // messages
+        server.addServlet(ServletPath.MESSAGES, new MessagesServlet());
+        server.addServlet(ServletPath.MESSAGES_WILDCARD, new MessagesServlet(), new MessagesFilter());
     }
 
     @Override
     public void run() {
         try {
-            //TODO: before starting server create database connection
             initDatabase();
+
+            initWs();
 
             initMapping();
 
             server.start();
         } catch (Exception e) {
+            Database.close();
             throw new RuntimeException(e);
         }
     }

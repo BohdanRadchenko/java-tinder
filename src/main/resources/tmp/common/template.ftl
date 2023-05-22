@@ -27,3 +27,12 @@
     </div>
     </body>
 </#macro>
+
+<#macro body_auth>
+    <body>
+    <#include "../componnets/aside.ftl">
+    <div class="container auth">
+        <#nested>
+    </div>
+    </body>
+</#macro>
