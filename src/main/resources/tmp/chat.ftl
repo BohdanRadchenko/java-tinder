@@ -1,12 +1,10 @@
 <#import "common/template.ftl" as t>
+<#import "common/links.ftl" as l>
 
 <@t.page>
     <@t.head title="Chat">
-        <link rel="stylesheet" href="static/css/chat.css">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
-              integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
-              crossorigin="anonymous">
-
+        <@l.chat/>
+        
         <script type="text/javascript">
             document.addEventListener("DOMContentLoaded", () => {
                 //ws

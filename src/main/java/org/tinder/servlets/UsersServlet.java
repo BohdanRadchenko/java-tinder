@@ -18,7 +18,7 @@ public class UsersServlet extends HttpServlet {
 
         try (PrintWriter w = resp.getWriter()) {
             FMTemplate
-                    .getTemplate("template_test.ftl")
+                    .getTemplate("users.ftl")
                     .process(data, w);
         } catch (TemplateException x) {
             throw new RuntimeException(x);
