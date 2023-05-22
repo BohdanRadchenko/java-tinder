@@ -33,7 +33,6 @@ public class TinderApplication implements Runnable {
 
     private void initMapping() {
         // static content
-        //TODO: create static servlet
         server.addFilter(ServletPath.WILDCARD, new StaticForwardFilter());
         server.addServlet(ServletPath.STATIC_WILDCARD, new StaticServlet(ResourcesOps.dir(Constants.STATIC_CONTENT_DIR)));
 
