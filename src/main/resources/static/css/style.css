@@ -143,14 +143,32 @@ i {
     margin-bottom: 0;
 }
 
+.user-avatar,
 .avatar-img {
     display: flex;
     align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
 }
+
+.user-avatar {
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+}
+
+.user-avatar img {
+    width: inherit;
+    height: inherit;
+    object-fit: cover;
+}
+
 
 .img-circle {
     border-radius: 50%;
-    width: 70px;
+    width: inherit;
+    height: inherit;
 }
 
 .panel .slidedown .glyphicon {

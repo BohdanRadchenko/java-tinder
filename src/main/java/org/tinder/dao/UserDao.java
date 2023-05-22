@@ -2,8 +2,11 @@ package org.tinder.dao;
 
 import org.tinder.interfaces.DAO;
 import org.tinder.models.User;
+import org.tinder.sql.SqlUsers;
+import org.tinder.utils.SqlRequester;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Optional;
 
@@ -14,9 +17,18 @@ public class UserDao implements DAO<User> {
         this.connection = connection;
     }
 
-    @Override
-    public boolean delete(Integer id) throws SQLException {
-        throw new RuntimeException("Not implement");
+    public Optional<User> getUserLikeWithoutCurrentLimit(Integer withoutId, Integer limit, Integer offset) throws SQLException {
+        ResultSet rs = SqlRequester
+                .of(connection, SqlUsers.selectUserWithLikeWithoutCurrentLimit())
+                .setInt(withoutId)
+                .setInt(limit)
+                .setInt(offset)
+                .query();
+        if (!rs.next()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(User.of(rs));
+        }
     }
 
     @Override
@@ -31,6 +43,11 @@ public class UserDao implements DAO<User> {
 
     @Override
     public int update(User user) throws SQLException {
+        throw new RuntimeException("Not implement");
+    }
+
+    @Override
+    public boolean delete(Integer id) throws SQLException {
         throw new RuntimeException("Not implement");
     }
 }
