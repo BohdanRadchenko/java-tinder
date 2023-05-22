@@ -8,6 +8,7 @@ public enum ServletPath {
     LOGIN("/login"),
     REGISTER("/register"),
     LOGOUT("/logout"),
+    USERS("/users"),
     MESSAGES("/messages"),
     MESSAGES_WILDCARD("/messages/*");
 

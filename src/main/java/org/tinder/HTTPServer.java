@@ -1,9 +1,11 @@
 package org.tinder;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.webapp.WebAppContext;
 import org.tinder.enums.ServletPath;
 import org.tinder.filters.RequestFilter;
 import org.tinder.interfaces.HttpFilter;

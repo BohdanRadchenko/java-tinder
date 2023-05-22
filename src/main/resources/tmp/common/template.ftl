@@ -1,3 +1,5 @@
+<#import "links.ftl" as l>
+
 <#macro page>
     <!doctype html>
     <html lang="en">
@@ -13,9 +15,8 @@
         <meta name="author" content="">
 
         <title>${title}</title>
-        <link rel="icon" href="static/img/favicon.ico">
-        <link href="static/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="static/css/style.css">
+        <@l.basic/>
+
         <#nested>
     </head>
 </#macro>
