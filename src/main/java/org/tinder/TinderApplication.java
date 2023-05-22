@@ -4,6 +4,7 @@ import org.tinder.enums.ServletPath;
 import org.tinder.filters.AuthFilter;
 import org.tinder.filters.MessagesFilter;
 import org.tinder.filters.StaticForwardFilter;
+import org.tinder.filters.UsersPageFilter;
 import org.tinder.servlets.*;
 import org.tinder.utils.Config;
 import org.tinder.utils.Constants;
@@ -45,11 +46,11 @@ public class TinderApplication implements Runnable {
 
 
         // users
-        server.addServlet(ServletPath.USERS, new UsersServlet(), new AuthFilter());
+        server.addServlet(ServletPath.USERS, new UsersServlet(), new AuthFilter(), new UsersPageFilter());
 
         // messages
-        server.addServlet(ServletPath.MESSAGES, new MessagesServlet(), new AuthFilter());
-        server.addServlet(ServletPath.MESSAGES_WILDCARD, new MessagesServlet(), new MessagesFilter(), new AuthFilter());
+        server.addServlet(ServletPath.MESSAGES, new MessagesServlet(), new AuthFilter(), new MessagesFilter());
+        server.addServlet(ServletPath.MESSAGES_WILDCARD, new MessagesServlet(), new AuthFilter(), new MessagesFilter());
     }
 
     @Override

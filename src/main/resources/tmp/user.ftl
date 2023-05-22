@@ -21,15 +21,26 @@
                         </div>
                         <h3 class="mb-0 text-truncated text-center mb-4">${user.fullName()}</h3>
                         <div class="row justify-content-center justify-content-lg-around ">
-                            <div class="col-11 col-lg-5 mb-2">
-                                <button type="button" class="btn btn-outline-danger btn-block"><span
-                                            class="fa fa-times"></span> Dislike
+                            <form class="col-11 col-lg-5 mb-2" method="POST">
+                                <input type="text" value="0" name="value" hidden>
+                                <input type="text" value="${user.id()}" name="toId" hidden>
+                                <button
+                                        type="submit"
+                                        class="btn btn-outline-danger btn-block"
+                                >
+                                    <span class="fa fa-times"></span> Dislike
                                 </button>
-                            </div>
-                            <div class="col-11 col-lg-5">
-                                <button class="btn btn-outline-success btn-block"><span class="fa fa-heart"></span> Like
+                            </form>
+                            <form class="col-11 col-lg-5" method="POST">
+                                <input type="text" value="1" name="value" hidden>
+                                <input type="text" value="${user.id()}" name="toId" hidden>
+                                <button
+                                        type="submit"
+                                        class="btn btn-outline-success btn-block"
+                                >
+                                    <span class="fa fa-heart"></span> Like
                                 </button>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

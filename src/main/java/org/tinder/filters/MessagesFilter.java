@@ -1,5 +1,6 @@
 package org.tinder.filters;
 
+import org.tinder.enums.RequestAttribute;
 import org.tinder.enums.ServletPath;
 import org.tinder.utils.QueryString;
 import org.tinder.utils.Respondent;
@@ -15,12 +16,12 @@ public class MessagesFilter extends RequestFilter {
     boolean accept(HttpServletRequest req, HttpServletResponse res) {
         try {
             String chatId = QueryString.getFirstPathClean(req.getPathInfo());
-            if(chatId == null || chatId.isBlank()) {
-                req.setAttribute("chatId", "");
+            if (chatId == null || chatId.isBlank()) {
+                req.setAttribute(RequestAttribute.CHAT_ID.value(), "");
                 return true;
             }
             UUID.fromString(chatId);
-            req.setAttribute("chatId", chatId);
+            req.setAttribute(RequestAttribute.CHAT_ID.value(), chatId);
             return true;
         } catch (Exception ex) {
             return false;
