@@ -1,3 +1,5 @@
+<#import "links.ftl" as l>
+
 <#macro page>
     <!doctype html>
     <html lang="en">
@@ -13,9 +15,8 @@
         <meta name="author" content="">
 
         <title>${title}</title>
-        <link rel="icon" href="static/img/favicon.ico">
-        <link href="static/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="static/css/style.css">
+        <@l.basic/>
+
         <#nested>
     </head>
 </#macro>
@@ -23,6 +24,15 @@
 <#macro body>
     <body>
     <div class="container">
+        <#nested>
+    </div>
+    </body>
+</#macro>
+
+<#macro body_auth>
+    <body>
+    <#include "../componnets/aside.ftl">
+    <div class="container auth">
         <#nested>
     </div>
     </body>
