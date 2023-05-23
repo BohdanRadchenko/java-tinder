@@ -43,7 +43,7 @@ public class TinderApplication implements Runnable {
 
         //auth
         server.addServlet(ServletPath.LOGIN, new LoginServlet());
-
+        server.addServlet(ServletPath.REGISTER, new RegisterServlet());
 
         // users
         server.addServlet(ServletPath.USERS, new UsersServlet(), new AuthFilter(), new UsersPageFilter());

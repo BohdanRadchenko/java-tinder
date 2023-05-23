@@ -6,7 +6,6 @@ import org.tinder.interfaces.Model;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 public record User(Integer id, String email, String firstName, String lastName,
                    String avatar, Boolean like) implements Model {
