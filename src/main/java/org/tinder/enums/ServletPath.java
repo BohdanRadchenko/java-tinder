@@ -9,6 +9,7 @@ public enum ServletPath {
     REGISTER("/register"),
     LOGOUT("/logout"),
     USERS("/users"),
+    LIKES("/liked"),
     MESSAGES("/messages"),
     MESSAGES_WILDCARD("/messages/*");
 
@@ -20,5 +21,9 @@ public enum ServletPath {
 
     public String path() {
         return this.path;
+    }
+
+    public String of(String path) {
+        return String.format("%s/%s", this.path, path);
     }
 }

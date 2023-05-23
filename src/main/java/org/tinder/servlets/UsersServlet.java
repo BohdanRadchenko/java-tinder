@@ -2,6 +2,7 @@ package org.tinder.servlets;
 
 import freemarker.template.TemplateException;
 import org.tinder.enums.RequestAttribute;
+import org.tinder.enums.ServletPath;
 import org.tinder.exceptions.NotFoundException;
 import org.tinder.models.Like;
 import org.tinder.models.User;
@@ -35,7 +36,7 @@ public class UsersServlet extends HttpServlet {
             System.out.println(ex.getMessage());
             req.setAttribute(RequestAttribute.USERS_OFFSET.value(), 0);
             CookieWorker.setUsersOffset(resp, 0);
-            doGet(req, resp);
+            resp.sendRedirect(ServletPath.LIKES.path());
         }
 
         HashMap<String, Object> data = new HashMap<>();
@@ -53,8 +54,8 @@ public class UsersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer fromId = (Integer) req.getAttribute(RequestAttribute.USER_ID.value());
-        Integer toId;
-        Integer value;
+        int toId;
+        int value;
 
         try {
             String toIdString = req.getParameter("toId");
@@ -76,7 +77,7 @@ public class UsersServlet extends HttpServlet {
             doGet(req, resp);
             return;
         }
-        
+
         Respondent.internalError(resp);
     }
 }
