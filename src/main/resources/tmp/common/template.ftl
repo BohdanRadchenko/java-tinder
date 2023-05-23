@@ -16,6 +16,7 @@
 
         <title>${title}</title>
         <@l.basic/>
+        <@l.fas/>
 
         <#nested>
     </head>

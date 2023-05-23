@@ -158,6 +158,11 @@ i {
     height: 200px;
 }
 
+td .user-avatar {
+    width: 100px;
+    height: 100px;
+}
+
 .user-avatar img {
     width: inherit;
     height: inherit;
