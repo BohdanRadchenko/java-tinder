@@ -53,6 +53,18 @@ public class UserServices {
         }
     }
 
+    public User getById(Integer id) throws NotFoundException, DatabaseException {
+        try {
+            Optional<User> user = db.getById(id);
+            if (user.isEmpty()) {
+                throw new NotFoundException("User not found");
+            }
+            return user.get();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
     public boolean updateLastLogin(Integer id, String ip) throws DatabaseException {
         try {
             return db.updateLastLogin(id, ip);

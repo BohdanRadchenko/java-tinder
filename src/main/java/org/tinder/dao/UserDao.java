@@ -47,7 +47,15 @@ public class UserDao implements DAO<User> {
 
     @Override
     public Optional<User> getById(Integer id) throws SQLException {
-        throw new RuntimeException("Not implement");
+        ResultSet rs = SqlRequester
+                .of(connection, SqlUsers.selectUserById())
+                .setInt(id)
+                .query();
+        if (!rs.next()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(User.of(rs));
+        }
     }
 
     public Optional<User> getByEmail(String email) throws SQLException {
@@ -65,8 +73,8 @@ public class UserDao implements DAO<User> {
     public boolean updateLastLogin(Integer id, String ip) throws SQLException {
         int update = SqlRequester
                 .of(connection, SqlUsers.updateLastLogin())
-                .setInt(id)
                 .setString(ip)
+                .setInt(id)
                 .update();
         return update >= 1;
     }

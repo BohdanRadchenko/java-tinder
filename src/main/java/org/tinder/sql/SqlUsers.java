@@ -44,7 +44,18 @@ public class SqlUsers {
                 """;
     }
 
+    public static String selectUserById() {
+        return """
+                SELECT id as user_id,
+                       email,
+                       password        
+                FROM users                              
+                WHERE id = ?
+                """;
+    }
+
     public static String updateLastLogin() {
         return "UPDATE user_login SET ip = ? WHERE user_id = ?;";
     }
+
 }

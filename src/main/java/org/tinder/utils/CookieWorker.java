@@ -47,5 +47,14 @@ public final class CookieWorker {
         cookie.setMaxAge(60 * 60 * 8);
         set(res, cookie);
     }
+
+    public static Integer getAuth(HttpServletRequest req) {
+        try {
+            String stringOffset = getCookieOrThrow(req, CookieNames.AUTH);
+            return Integer.parseInt(stringOffset);
+        } catch (NumberFormatException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
     // TODO: 23.05.2023 добавить два метода Auth and logOut set 0
 }
