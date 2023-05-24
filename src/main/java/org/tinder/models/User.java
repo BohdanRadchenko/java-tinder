@@ -5,6 +5,7 @@ import org.ocpsoft.prettytime.PrettyTime;
 import org.tinder.exceptions.DatabaseException;
 import org.tinder.interfaces.Model;
 import org.tinder.utils.DateUtil;
+import org.tinder.utils.ResulterSet;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,35 +55,17 @@ public record User(Integer id, String email, String firstName, String lastName,
 
     public static User of(ResultSet resultSet) {
         if (resultSet == null) return null;
-        try {
-            Integer id = resultSet.getInt("user_id");
-            String email = resultSet.getString("email");
-            String firstName = resultSet.getString("firstName");
-            String lastName = resultSet.getString("lastName");
-            String avatar = resultSet.getString("avatar");
+        Integer id = ResulterSet.getInteger(resultSet, "user_id");
+        String email = ResulterSet.getString(resultSet, "email");
+        String password = ResulterSet.getString(resultSet, "password");
+        String profession = ResulterSet.getString(resultSet, "profession");
+        String firstName = ResulterSet.getString(resultSet, "firstName");
+        String lastName = ResulterSet.getString(resultSet, "lastName");
+        String avatar = ResulterSet.getString(resultSet, "avatar");
+        Boolean like = ResulterSet.getBoolean(resultSet, "like");
+        Timestamp time = ResulterSet.getTimestamp(resultSet, "lastLogin");
+        Long lastLogin = time == null ? null : time.getTime();
 
-            Boolean like;
-            try {
-                like = resultSet.getBoolean("like");
-            } catch (SQLException ignored) {
-                like = null;
-            }
-
-            Long lastLogin;
-            try {
-                Timestamp time = resultSet.getTimestamp("lastLogin");
-                if (time == null) {
-                    lastLogin = null;
-                } else {
-                    lastLogin = time.getTime();
-                }
-            } catch (SQLException ignored) {
-                lastLogin = null;
-            }
-
-            return User.of(id, email, firstName, lastName, avatar, like, lastLogin);
-        } catch (SQLException ex) {
-            throw new DatabaseException("User load exception", ex);
-        }
+        return User.of(id, email, password, profession, firstName, lastName, avatar, like, lastLogin);
     }
 }
