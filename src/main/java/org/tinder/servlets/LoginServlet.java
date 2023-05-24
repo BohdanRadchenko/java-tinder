@@ -1,6 +1,7 @@
 package org.tinder.servlets;
 
 import freemarker.template.TemplateException;
+import org.tinder.services.UserServices;
 import org.tinder.utils.FMTemplate;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 
 public class LoginServlet extends HttpServlet {
+    private final UserServices userService = new UserServices();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, Object> data = new HashMap<>();
@@ -22,5 +25,13 @@ public class LoginServlet extends HttpServlet {
         } catch (TemplateException x) {
             throw new RuntimeException(x);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+
+
     }
 }

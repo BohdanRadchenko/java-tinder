@@ -41,4 +41,5 @@ public final class CookieWorker {
         Cookie cookie = new Cookie(CookieNames.USERS_OFFSET.getValue(), value.toString());
         set(res, cookie);
     }
+    // TODO: 23.05.2023 добавить два метода Auth and logOut set 0
 }

@@ -36,8 +36,24 @@ public class UserDao implements DAO<User> {
         throw new RuntimeException("Not implement");
     }
 
+    public Optional<User> getByEmail(String email) throws SQLException {
+        ResultSet rs = SqlRequester
+                .of(connection, SqlUsers.selectUserByEmail())
+                .setString(email)
+                .query();
+        if (!rs.next()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(User.of(rs));
+        }
+
+
+    }
+
     @Override
     public int create(User user) throws SQLException {
+
+        //create сдесь создаём
         throw new RuntimeException("Not implement");
     }
 

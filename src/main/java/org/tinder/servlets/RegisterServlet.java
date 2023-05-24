@@ -1,6 +1,7 @@
 package org.tinder.servlets;
 
 import freemarker.template.TemplateException;
+import org.tinder.models.User;
 import org.tinder.utils.FMTemplate;
 
 import javax.servlet.ServletException;
@@ -13,6 +14,23 @@ import java.util.HashMap;
 
 public class RegisterServlet extends HttpServlet {
     @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        String email = req.getParameter("inputEmail");
+        String profession = req.getParameter("profession");
+        String password = req.getParameter("password");
+        String repeatPassword = req.getParameter("repeatPassword");
+
+        if (email.isEmpty() || profession.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
+            resp.sendRedirect("/register?error=fields");
+        }
+
+
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, Object> data = new HashMap<>();
         try (PrintWriter w = resp.getWriter()) {
@@ -23,4 +41,5 @@ public class RegisterServlet extends HttpServlet {
             throw new RuntimeException(x);
         }
     }
+
 }

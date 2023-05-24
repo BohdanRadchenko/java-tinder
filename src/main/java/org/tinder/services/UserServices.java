@@ -27,4 +27,8 @@ public class UserServices {
             throw new DatabaseException(ex);
         }
     }
+
+    public User getByEmail(String email) {
+
+    }
 }

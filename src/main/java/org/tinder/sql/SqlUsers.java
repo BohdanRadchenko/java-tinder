@@ -17,4 +17,16 @@ public class SqlUsers {
                 OFFSET ?;
                 """;
     }
+
+    public static String selectUserByEmail() {
+        return """
+                SELECT id as user_id,
+                     email,
+                     password          
+                FROM users                              
+                WHERE email = ?
+                """;
+    }
+
+
 }
