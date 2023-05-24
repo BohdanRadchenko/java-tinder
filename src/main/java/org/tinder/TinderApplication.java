@@ -38,7 +38,7 @@ public class TinderApplication implements Runnable {
         server.addServlet(ServletPath.STATIC_WILDCARD, new StaticServlet(ResourcesOps.dir(Constants.STATIC_CONTENT_DIR)));
 
         // home
-        // TODO: example home servlet. Remove in development
+        // TODO: example home servlet. Remove next code
         server.addServlet(ServletPath.HOME, new HomeServlet());
 
         //auth
@@ -47,6 +47,9 @@ public class TinderApplication implements Runnable {
 
         // users
         server.addServlet(ServletPath.USERS, new UsersServlet(), new AuthFilter(), new UsersPageFilter());
+
+        // likes
+        server.addServlet(ServletPath.LIKES, new LikedServlet(), new AuthFilter());
 
         // messages
         server.addServlet(ServletPath.MESSAGES, new MessagesServlet(), new AuthFilter(), new MessagesFilter());

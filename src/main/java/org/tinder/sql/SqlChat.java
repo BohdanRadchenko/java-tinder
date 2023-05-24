@@ -18,4 +18,22 @@ public class SqlChat {
                 WHERE cs.user_id = ?;
                 """;
     }
+
+    public static String getChatIdFromTo() {
+        return """
+                SELECT c.uuid
+                FROM chat_user cu
+                    LEFT JOIN chat_user cu2 ON cu2.chat_id = cu.chat_id AND cu2.user_id = ?
+                    LEFT JOIN chats c ON c.id = cu.chat_id
+                WHERE cu.user_id = ?;
+                """;
+    }
+
+    public static String insertChat() {
+        return "INSERT INTO chats (uuid) VALUE (?);";
+    }
+
+    public static String insertUsersChat() {
+        return "INSERT INTO chat_user (chat_id, user_id) VALUE (?, ?);";
+    }
 }

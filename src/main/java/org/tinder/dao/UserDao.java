@@ -8,6 +8,8 @@ import org.tinder.utils.SqlRequester;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class UserDao implements DAO<User> {
@@ -29,6 +31,18 @@ public class UserDao implements DAO<User> {
         } else {
             return Optional.of(User.of(rs));
         }
+    }
+
+    public List<User> getLikedUsers(Integer currentUserId) throws SQLException {
+        ArrayList<User> users = new ArrayList<>();
+        ResultSet rs = SqlRequester
+                .of(connection, SqlUsers.selectLikedUsersForCurrentUser())
+                .setInt(currentUserId)
+                .query();
+        while (rs.next()) {
+            users.add(User.of(rs));
+        }
+        return users;
     }
 
     @Override

@@ -7,6 +7,7 @@ import org.tinder.models.User;
 import org.tinder.utils.Database;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
 
 public class UserServices {
@@ -28,7 +29,19 @@ public class UserServices {
         }
     }
 
-    public User getByEmail(String email) {
+    public List<User> getLikedUsers(Integer currentId) throws DatabaseException, NotFoundException {
+        try {
+            List<User> likedUsers = db.getLikedUsers(currentId);
+            if (likedUsers.isEmpty()) {
+                throw new NotFoundException(String.format("Users with like for user ID: %d not found", currentId));
+            }
+            return likedUsers;
+        } catch (SQLException ex) {
+            throw new DatabaseException(ex);
+        }
+    }
 
+    public User getByEmail(String email) {
+        return null;
     }
 }

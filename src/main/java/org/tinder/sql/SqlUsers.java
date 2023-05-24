@@ -18,15 +18,29 @@ public class SqlUsers {
                 """;
     }
 
+    public static String selectLikedUsersForCurrentUser() {
+        return """
+                SELECT u.id as user_id,
+                       u.email,
+                       u.first_name as firstName,
+                       u.last_name as lastName,
+                       u.avatar,
+                       l.time as lastLogin
+                FROM user_likes ul
+                    LEFT JOIN users u on u.id = ul.user_to
+                    LEFT JOIN user_login l on u.id = l.user_id
+                WHERE ul.user_from = ? and ul.value = 1
+                ORDER BY u.id;
+                """;
+    }
+
     public static String selectUserByEmail() {
         return """
                 SELECT id as user_id,
-                     email,
-                     password          
+                       email,
+                       password        
                 FROM users                              
                 WHERE email = ?
                 """;
     }
-
-
 }

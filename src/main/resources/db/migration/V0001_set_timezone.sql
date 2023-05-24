@@ -1,1 +1,12 @@
-SET GLOBAL time_zone = "Europe/Kiev"
+-- SET GLOBAL time_zone = "Europe/Kiev"
+
+-- create table user_login
+-- (
+--     user_id int      not null,
+--     ip      text     null,
+--     time    datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+--     primary key(user_id),
+--     constraint user_login_users_id_fk
+--         foreign key (user_id) references users (id)
+--             on delete cascade
+-- );

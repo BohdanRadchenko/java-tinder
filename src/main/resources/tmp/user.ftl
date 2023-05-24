@@ -5,9 +5,7 @@
 <#--    user  -->
 
 <@t.page>
-    <@t.head title="Users">
-        <@l.fas/>
-    </@t.head>
+    <@t.head title="Users"/>
     <@t.body_auth>
         <div class="col-8 mt-5">
             <div class="card">

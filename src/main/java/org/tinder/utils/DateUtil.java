@@ -128,7 +128,7 @@ public class DateUtil {
     }
 
     /**
-     * Formatter time age or format by patter
+     * Formatter time ago or format by patter
      *
      * @return string from data formatted by yyyy-MM-dd HH:mm:ss
      */
