@@ -53,6 +53,14 @@ public class UserServices {
         }
     }
 
+    public boolean updateLastLogin(Integer id, String ip) throws DatabaseException {
+        try {
+            return db.updateLastLogin(id, ip);
+        } catch (SQLException ex) {
+            throw new DatabaseException(ex);
+        }
+    }
+
     public User login(String email, String password) throws NotFoundException, DatabaseException, IllegalArgumentException {
         User user = getByEmail(email);
         boolean equalsPassword = user.password().equals(password);

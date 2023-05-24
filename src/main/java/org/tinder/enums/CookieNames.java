@@ -1,7 +1,7 @@
 package org.tinder.enums;
 
 public enum CookieNames {
-    AUTH_TOKEN("AUTH_TOKEN"),
+    AUTH("AUTH"),
     USERS_OFFSET("USERS_OFFSET");
 
     private final String value;

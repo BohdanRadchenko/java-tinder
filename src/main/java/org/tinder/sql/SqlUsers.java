@@ -43,4 +43,8 @@ public class SqlUsers {
                 WHERE email = ?
                 """;
     }
+
+    public static String updateLastLogin() {
+        return "UPDATE user_login SET ip = ? WHERE user_id = ?;";
+    }
 }

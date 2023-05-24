@@ -56,12 +56,19 @@ public class UserDao implements DAO<User> {
                 .setString(email)
                 .query();
         if (!rs.next()) {
-            System.out.println("Empty");
             return Optional.empty();
         } else {
-            System.out.println("Else");
             return Optional.of(User.of(rs));
         }
+    }
+
+    public boolean updateLastLogin(Integer id, String ip) throws SQLException {
+        int update = SqlRequester
+                .of(connection, SqlUsers.updateLastLogin())
+                .setInt(id)
+                .setString(ip)
+                .update();
+        return update >= 1;
     }
 
     @Override

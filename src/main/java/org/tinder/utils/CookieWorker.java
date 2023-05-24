@@ -41,5 +41,11 @@ public final class CookieWorker {
         Cookie cookie = new Cookie(CookieNames.USERS_OFFSET.getValue(), value.toString());
         set(res, cookie);
     }
+
+    public static void setAuth(HttpServletResponse res, Integer id) {
+        Cookie cookie = new Cookie(CookieNames.AUTH.getValue(), id.toString());
+        cookie.setMaxAge(60 * 60 * 8);
+        set(res, cookie);
+    }
     // TODO: 23.05.2023 добавить два метода Auth and logOut set 0
 }
