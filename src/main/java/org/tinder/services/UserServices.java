@@ -41,7 +41,24 @@ public class UserServices {
         }
     }
 
-    public User getByEmail(String email) {
-        return null;
+    public User getByEmail(String email) throws NotFoundException, DatabaseException {
+        try {
+            Optional<User> byEmail = db.getByEmail(email);
+            if (byEmail.isEmpty()) {
+                throw new NotFoundException("User not found");
+            }
+            return byEmail.get();
+        } catch (SQLException e) {
+            throw new DatabaseException(e);
+        }
+    }
+
+    public User login(String email, String password) throws NotFoundException, DatabaseException, IllegalArgumentException {
+        User user = getByEmail(email);
+        boolean equalsPassword = user.password().equals(password);
+        if (!equalsPassword) {
+            throw new IllegalArgumentException("Invalid password");
+        }
+        return user;
     }
 }

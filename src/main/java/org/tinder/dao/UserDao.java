@@ -56,12 +56,12 @@ public class UserDao implements DAO<User> {
                 .setString(email)
                 .query();
         if (!rs.next()) {
+            System.out.println("Empty");
             return Optional.empty();
         } else {
+            System.out.println("Else");
             return Optional.of(User.of(rs));
         }
-
-
     }
 
     @Override
