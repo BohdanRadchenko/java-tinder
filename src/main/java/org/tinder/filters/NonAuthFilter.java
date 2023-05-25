@@ -10,26 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class AuthFilter extends RequestFilter {
-
-    private final UserServices userServices = new UserServices();
+public class NonAuthFilter extends RequestFilter {
 
     @Override
     boolean accept(HttpServletRequest req, HttpServletResponse res) {
         try {
-            Integer userId = CookieWorker.getAuth(req);
-            userServices.getById(userId);
-            req.setAttribute(RequestAttribute.USER_ID.value(), userId);
-            return true;
-        } catch (Exception ignored) {
+            CookieWorker.getAuth(req);
             return false;
+        } catch (Exception ignored) {
+            return true;
         }
     }
 
     @Override
     void failed(HttpServletRequest req, HttpServletResponse res) {
         try {
-            res.sendRedirect(ServletPath.LOGIN.path());
+            res.sendRedirect(ServletPath.HOME.path());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

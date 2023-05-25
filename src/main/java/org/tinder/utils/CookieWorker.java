@@ -56,5 +56,10 @@ public final class CookieWorker {
             throw new RuntimeException(ex);
         }
     }
-    // TODO: 23.05.2023 добавить два метода Auth and logOut set 0
+
+    public static void logout(HttpServletResponse res) {
+        Cookie cookie = new Cookie(CookieNames.AUTH.getValue(), "");
+        cookie.setMaxAge(0);
+        set(res, cookie);
+    }
 }
