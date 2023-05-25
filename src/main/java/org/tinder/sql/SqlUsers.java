@@ -54,6 +54,10 @@ public class SqlUsers {
                 """;
     }
 
+    public static String insertLastLogin() {
+        return "INSERT INTO user_login (user_id, ip) VALUES(?, ?);";
+    }
+
     public static String updateLastLogin() {
         return "UPDATE user_login SET ip = ? WHERE user_id = ?;";
     }

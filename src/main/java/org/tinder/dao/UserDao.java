@@ -2,12 +2,11 @@ package org.tinder.dao;
 
 import org.tinder.interfaces.DAO;
 import org.tinder.models.User;
+import org.tinder.sql.SqlMessage;
 import org.tinder.sql.SqlUsers;
 import org.tinder.utils.SqlRequester;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -70,6 +69,15 @@ public class UserDao implements DAO<User> {
         }
     }
 
+    public boolean insertLastLogin(Integer id, String ip) throws SQLException {
+        int update = SqlRequester
+                .of(connection, SqlUsers.insertLastLogin())
+                .setInt(id)
+                .setString(ip)
+                .update();
+        return update >= 1;
+    }
+
     public boolean updateLastLogin(Integer id, String ip) throws SQLException {
         int update = SqlRequester
                 .of(connection, SqlUsers.updateLastLogin())
@@ -81,10 +89,26 @@ public class UserDao implements DAO<User> {
 
     @Override
     public int create(User user) throws SQLException {
-        return SqlRequester
-                .of(connection, SqlUsers.insertUserRegister())
-                .setString(user.email(), user.password(), user.firstName(), user.lastName())
-                .update();
+        try (
+                PreparedStatement statement = SqlRequester
+                        .of(connection, SqlUsers.insertUserRegister(), Statement.RETURN_GENERATED_KEYS)
+                        .setString(user.email(), user.password(), user.firstName(), user.lastName())
+                        .statement()
+        ) {
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed, no rows affected.");
+            }
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Creating user failed, no generated keys.");
+                }
+            }
+        }
     }
 
     @Override

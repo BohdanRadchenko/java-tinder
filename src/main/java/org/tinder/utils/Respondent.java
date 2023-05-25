@@ -14,6 +14,10 @@ public class Respondent {
         res.sendError(HttpServletResponse.SC_BAD_REQUEST, message);
     }
 
+    public static void badRequest(HttpServletResponse res) throws IOException {
+        badRequest(res, "Oops... Something wrong!");
+    }
+
     public static void internalError(HttpServletResponse res, String message) throws IOException {
         res.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, message);
     }

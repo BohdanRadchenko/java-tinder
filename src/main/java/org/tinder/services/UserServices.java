@@ -65,6 +65,14 @@ public class UserServices {
         }
     }
 
+    public boolean insertLastLogin(Integer id, String ip) throws DatabaseException {
+        try {
+            return db.insertLastLogin(id, ip);
+        } catch (SQLException ex) {
+            throw new DatabaseException(ex);
+        }
+    }
+
     public boolean updateLastLogin(Integer id, String ip) throws DatabaseException {
         try {
             return db.updateLastLogin(id, ip);
@@ -82,12 +90,17 @@ public class UserServices {
         return user;
     }
 
-    public boolean create(User user) {
+    public int create(User user) throws DatabaseException {
         try {
-            int i = db.create(user);
-            return i >= 1;
+            return db.create(user);
         } catch (SQLException ex) {
             throw new DatabaseException(ex);
         }
+    }
+
+    public int register(User user, String ip) throws DatabaseException {
+        int id = create(user);
+        insertLastLogin(id, ip);
+        return id;
     }
 }

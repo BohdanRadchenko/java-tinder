@@ -1,8 +1,13 @@
 package org.tinder.servlets;
 
 import freemarker.template.TemplateException;
+import org.tinder.enums.ServletPath;
+import org.tinder.exceptions.DatabaseException;
 import org.tinder.models.User;
+import org.tinder.services.UserServices;
+import org.tinder.utils.CookieWorker;
 import org.tinder.utils.FMTemplate;
+import org.tinder.utils.Respondent;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,17 +18,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 
 public class RegisterServlet extends HttpServlet {
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        String firstName = req.getParameter("firstName");
-        String lastName = req.getParameter("lastName");
-        String email = req.getParameter("inputEmail");
-        String profession = req.getParameter("profession");
-        String password = req.getParameter("password");
-        User user = User.of(email, password, profession, firstName, lastName);
-        
-    }
+    private final UserServices userServices = new UserServices();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,6 +30,27 @@ public class RegisterServlet extends HttpServlet {
         } catch (TemplateException x) {
             throw new RuntimeException(x);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String ip = req.getRemoteAddr();
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        String email = req.getParameter("inputEmail");
+        String profession = req.getParameter("profession");
+        String password = req.getParameter("password");
+
+        User user = User.of(email, password, profession, firstName, lastName);
+
+        try {
+            int id = userServices.register(user, ip);
+            CookieWorker.setAuth(resp, id);
+            Respondent.redirect(resp, ServletPath.HOME);
+        } catch (Exception ex) {
+            Respondent.badRequest(resp);
+        }
+
     }
 
 }
