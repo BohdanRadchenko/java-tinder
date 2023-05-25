@@ -16,7 +16,6 @@ public class AuthFilter extends RequestFilter {
 
     @Override
     boolean accept(HttpServletRequest req, HttpServletResponse res) {
-
         try {
             Integer userId = CookieWorker.getAuth(req);
             userServices.getById(userId);
