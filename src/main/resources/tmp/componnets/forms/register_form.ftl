@@ -40,6 +40,13 @@
         <input type="password" id="repeatPassword" name="repeatPassword" class="form-control"
                placeholder="Repeat password" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+
+        <p class="small fw-bold mt-2 pt-1 mb-0">Have already an account?
+            <a href="/login" class="link-danger">
+                <u>Login here</u>
+            </a>
+        </p>
+
         <#include "../copyright.ftl">
     </form>
 </form>
