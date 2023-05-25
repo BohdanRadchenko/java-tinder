@@ -19,6 +19,9 @@ public class TinderApplication implements Runnable {
         System.out.println("db connection...");
         Database.connect();
         System.out.println("db connected...");
+        // TODO: uncomment next code before release deploy;
+//        Database.migrate();
+        System.out.println("db migrated...");
     }
 
 
