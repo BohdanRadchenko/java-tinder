@@ -24,7 +24,6 @@ public class MessagesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer userId = (Integer) req.getAttribute(RequestAttribute.USER_ID.value());
         String chatId = (String) req.getAttribute(RequestAttribute.CHAT_ID.value());
-        System.out.println(chatId);
 
         HashMap<String, Object> data = new HashMap<>();
 
