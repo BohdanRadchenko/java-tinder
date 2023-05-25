@@ -30,10 +30,6 @@ public class MessagesServlet extends HttpServlet {
 
         List<Chat> userChats = chatServices.messagesByChatId(userId);
 
-        for (Chat userChat : userChats) {
-            System.out.println("userChat: " + userChat);
-        }
-
         List<SocketResMessage> messages = messageServices
                 .getByChatId(chatId)
                 .stream()
@@ -45,8 +41,6 @@ public class MessagesServlet extends HttpServlet {
                 .filter(ch -> ch.chat().equals(chatId))
                 .findFirst()
                 .orElse(null);
-
-        System.out.println(currentChat);
 
         data.put("chats", userChats);
         data.put("currentChat", currentChat);
