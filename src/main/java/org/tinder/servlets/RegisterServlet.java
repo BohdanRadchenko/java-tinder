@@ -46,6 +46,7 @@ public class RegisterServlet extends HttpServlet {
         try {
             int id = userServices.register(user, ip);
             CookieWorker.setAuth(resp, id);
+            CookieWorker.setUsersOffset(resp, 0);
             Respondent.redirect(resp, ServletPath.HOME);
         } catch (Exception ex) {
             Respondent.badRequest(resp);

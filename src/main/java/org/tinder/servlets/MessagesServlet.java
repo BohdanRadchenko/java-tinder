@@ -24,19 +24,29 @@ public class MessagesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Integer userId = (Integer) req.getAttribute(RequestAttribute.USER_ID.value());
         String chatId = (String) req.getAttribute(RequestAttribute.CHAT_ID.value());
+        System.out.println(chatId);
 
         HashMap<String, Object> data = new HashMap<>();
+
         List<Chat> userChats = chatServices.messagesByChatId(userId);
+
+        for (Chat userChat : userChats) {
+            System.out.println("userChat: " + userChat);
+        }
+
         List<SocketResMessage> messages = messageServices
                 .getByChatId(chatId)
                 .stream()
                 .map(SocketResMessage::of)
                 .toList();
+
         Chat currentChat = userChats
                 .stream()
                 .filter(ch -> ch.chat().equals(chatId))
                 .findFirst()
                 .orElse(null);
+
+        System.out.println(currentChat);
 
         data.put("chats", userChats);
         data.put("currentChat", currentChat);

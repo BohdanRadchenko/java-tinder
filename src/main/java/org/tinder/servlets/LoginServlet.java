@@ -41,6 +41,7 @@ public class LoginServlet extends HttpServlet {
             User user = userService.login(email, password);
             userService.updateLastLogin(user.id(), ip);
             CookieWorker.setAuth(resp, user.id());
+            CookieWorker.setUsersOffset(resp, 0);
             resp.sendRedirect(ServletPath.USERS.path());
         } catch (DatabaseException ex) {
             resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
