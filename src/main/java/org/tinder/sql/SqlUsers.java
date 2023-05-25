@@ -58,4 +58,11 @@ public class SqlUsers {
         return "UPDATE user_login SET ip = ? WHERE user_id = ?;";
     }
 
+    public static String insertUserRegister() {
+        return """
+                INSERT INTO users 
+                (email, password, first_name, last_name) 
+                VALUES(?, ?, ?, ?);
+                """;
+    }
 }

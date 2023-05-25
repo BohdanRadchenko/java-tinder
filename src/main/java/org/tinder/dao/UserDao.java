@@ -81,9 +81,10 @@ public class UserDao implements DAO<User> {
 
     @Override
     public int create(User user) throws SQLException {
-
-        //create сдесь создаём
-        throw new RuntimeException("Not implement");
+        return SqlRequester
+                .of(connection, SqlUsers.insertUserRegister())
+                .setString(user.email(), user.password(), user.firstName(), user.lastName())
+                .update();
     }
 
     @Override

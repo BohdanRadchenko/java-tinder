@@ -21,13 +21,8 @@ public class RegisterServlet extends HttpServlet {
         String email = req.getParameter("inputEmail");
         String profession = req.getParameter("profession");
         String password = req.getParameter("password");
-        String repeatPassword = req.getParameter("repeatPassword");
-
-        if (email.isEmpty() || profession.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || password.isEmpty() || repeatPassword.isEmpty()) {
-            resp.sendRedirect("/register?error=fields");
-        }
-
-
+        User user = User.of(email, password, profession, firstName, lastName);
+        
     }
 
     @Override

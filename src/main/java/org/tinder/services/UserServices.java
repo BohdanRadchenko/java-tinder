@@ -81,4 +81,13 @@ public class UserServices {
         }
         return user;
     }
+
+    public boolean create(User user) {
+        try {
+            int i = db.create(user);
+            return i >= 1;
+        } catch (SQLException ex) {
+            throw new DatabaseException(ex);
+        }
+    }
 }

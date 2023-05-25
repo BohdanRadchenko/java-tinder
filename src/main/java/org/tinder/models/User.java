@@ -55,6 +55,10 @@ public record User(Integer id, String email, String password, String profession,
         return new User(id, email, password, profession, firstName, lastName, avatar, like, lastLogin);
     }
 
+    public static User of(String email, String password, String profession, String firstName, String lastName) {
+        return new User(null, email, password, profession, firstName, lastName, null, null, null);
+    }
+
     public static User of(ResultSet resultSet) {
         if (resultSet == null) return null;
         Integer id = ResulterSet.getInteger(resultSet, "user_id");
